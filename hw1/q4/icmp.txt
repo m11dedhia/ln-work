@@ -1,0 +1,6 @@
+04:29:00.928901 52:54:00:38:38:02 (oui Unknown) > 52:54:00:38:38:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 64, id 35365, offset 0, flags [DF], proto ICMP (1), length 84)
+    lnVM02 > bi-in-f113.1e100.net: ICMP echo request, id 33872, seq 1, length 64
+04:29:00.945528 52:54:00:38:38:01 (oui Unknown) > 52:54:00:38:38:02 (oui Unknown), ethertype IPv4 (0x0800), length 98: (tos 0x0, ttl 103, id 0, offset 0, flags [none], proto ICMP (1), length 84)
+    bi-in-f113.1e100.net > lnVM02: ICMP echo reply, id 33872, seq 1, length 64
+
+
