@@ -1,0 +1,24 @@
+- name: Create 2 VMs
+  hosts: localhost
+  tasks:
+#     - name: Create VM1 from xml 1
+#       community.libvirt.virt:
+#         command: create
+#         xml: "{{ lookup('file', './ansible-VM1.xml') }}"
+#         name: ansible-VM1
+#     - name: Start VM1
+#       community.libvirt.virt:
+#         name: ansible-VM1
+#         state: running
+    - name: Create VM1
+      shell: "sudo bash /home/vmadm/megh/hw2/create-vm.sh ansible-VM1 AAAAB3NzaC1yc2EAAAADAQABAAABgQCmEZfWiY2ihCIrtkhOm/PkXRPx3a7oYXz8LeYiscI8q876Vc1QLjBLTfueWmABhHw6zZ33XZ1MyEn+zpedsrsIL7xPZDweetw/pqFLBCZrSusqCu442dEi/29iedR2j1lnh+1V4tWIivJJtzlvikCbvow0EkJwmXVKRvZBjAzhRBkLtzcP1bvvBDusKLxjSse2zW8OOFy0+pM+0YS7Kk0O6/f1tYRr0+2/vVCUTZko/C5hawfu8oI2s4NFGQ7MDDc38AWbWmdBsHQfGrU75eLFTxE1wp5dALZGqbUaYYqly0wpeBm4R+PYiwEdbgp2AYsSNGPIw/KWLTih2b2PfJTdmPHj6YdZSXvLjy2lTeVACir0YxToTynFiGe22tDDvC2eWGx6Zoj8elXH+lXe2h4yagqgzmwnBQB4HqyW5LHwDtqcjUm2R4Epqp0YbDQ7OsoluLpA37iyFc2D21AQPaygF9eqkYChSYxHlyuuUY/WJhYgLRw/A2o6spPWB8mAVF8="
+    - name: Create VM2
+      shell: "sudo bash /home/vmadm/megh/hw2/create-vm.sh ansible-VM2 AAAAB3NzaC1yc2EAAAADAQABAAABgQCmEZfWiY2ihCIrtkhOm/PkXRPx3a7oYXz8LeYiscI8q876Vc1QLjBLTfueWmABhHw6zZ33XZ1MyEn+zpedsrsIL7xPZDweetw/pqFLBCZrSusqCu442dEi/29iedR2j1lnh+1V4tWIivJJtzlvikCbvow0EkJwmXVKRvZBjAzhRBkLtzcP1bvvBDusKLxjSse2zW8OOFy0+pM+0YS7Kk0O6/f1tYRr0+2/vVCUTZko/C5hawfu8oI2s4NFGQ7MDDc38AWbWmdBsHQfGrU75eLFTxE1wp5dALZGqbUaYYqly0wpeBm4R+PYiwEdbgp2AYsSNGPIw/KWLTih2b2PfJTdmPHj6YdZSXvLjy2lTeVACir0YxToTynFiGe22tDDvC2eWGx6Zoj8elXH+lXe2h4yagqgzmwnBQB4HqyW5LHwDtqcjUm2R4Epqp0YbDQ7OsoluLpA37iyFc2D21AQPaygF9eqkYChSYxHlyuuUY/WJhYgLRw/A2o6spPWB8mAVF8="
+#    - name: Get XML
+#      community.libvirt.virt:
+#        name: ansible-VM2
+#        command: get_xml
+#    - name: Shutdown both VM2 to edit network configuration
+#      shell: "sudo virsh shutdown ansible-VM1 & sudo shutdown ansible-VM2"
+#    - name: Edit Ansible 1 VM
+#      community.general

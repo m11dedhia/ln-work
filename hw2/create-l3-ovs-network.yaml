@@ -1,0 +1,9 @@
+- name: Creating L3 OVS network
+  hosts: localhost
+  tasks:
+    - name: Create an OVS bridge
+      openvswitch_bridge:
+          bridge: team01-netl3
+          state: present
+    - name: Set up state
+      command: "sudo ip link set up team01-netl3"

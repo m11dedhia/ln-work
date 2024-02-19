@@ -1,0 +1,12 @@
+#cloud-config
+disable_root: false
+ssh_authorized_keys:
+- ssh-rsa
+  AAAAB3NzaC1yc2EAAAADAQABAAABgQDFzdG6ufkVJ7SVv0Tbyp8RLpdMKZZHpEcghD3dIgOyUrAEJrLle6Qjq9bijumgRdausG9b49ywcqieJzAFsLDBsiJQHcU2n5O4D3MAPsFtOmwQNw7PsWtg/p9OCEQxneaCvOdDQRlA/jzk8oyw3EZG56pwlmCMfNcE0hQrpl+rjTR6ZKLs0tUQ9/GcQCdTyY2mPJ29LtS09IM6MbcWj7Nxn/ubrQvGL1fA34tUThW8+IqTxXmUpUN3Qgoj8siPvb7NfHFxWl2Iov5cQk257uVlfEjBvRBDcHZIc3SLc1WLGOCEFz/fjcJGz0NYxwp88RWETUXp2alCLh89nt8ndaYG56dfwoB1eZPiwraX3ZSFrCmHgY5hS6AO1WLw0bggY7NIKojSmnw5ruIqWh72KdSJOsLuOBXMF4MZWO/BY2v1Cwa52zyxdiB9ORWmL4+7NsZbS8w/rprEM7FhE96W1wG173vEt1J+kjZzDXT9AySB27ViDCq9OhGIoxZuSXRCLPU
+users:
+- name: root
+  lock_passwd: false
+  plain_text_passwd: root
+- name: ubuntu
+  lock_passwd: false
+  plain_text_passwd: ubuntu

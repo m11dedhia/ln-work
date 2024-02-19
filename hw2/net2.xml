@@ -1,0 +1,6 @@
+<network>
+  <name>megh-net2</name>
+  <forward mode='bridge'/>
+  <bridge name='meghs2' />
+  <virtualport type='openvswitch'/>
+</network>

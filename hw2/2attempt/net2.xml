@@ -1,0 +1,6 @@
+<network>
+ <name>n2</name>
+ <forward mode='bridge'/>
+ <bridge name='ssw2'/>
+ <virtualport type='openvswtich'/>
+</network>

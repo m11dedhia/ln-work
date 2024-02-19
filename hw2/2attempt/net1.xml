@@ -1,0 +1,5 @@
+<network>
+ <name>n1</name>
+ <forward mode='bridge'/>
+ <bridge name='ssw1'/>
+</network>
