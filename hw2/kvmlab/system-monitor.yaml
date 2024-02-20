@@ -28,6 +28,8 @@
 #    with_items: "{{ output.stdout_lines }}"
 
 - hosts: monitored
+  vars:
+    hostn1: "{{ ansible_hostname }}"
   tasks:
   - name: Copy
     copy:
@@ -55,8 +57,8 @@
   - name: Fetch remotely logged files
     ansible.builtin.fetch:
       src: /var/customlogs/logs/log
-      #dest: /var/customlogs/logs/{{ ansible_hostname }}
-      dest: /var/customlogs/logs/temp
+      dest: /var/customlogs/logs/{{ hostn1 }}
+      #dest: /var/customlogs/logs/temp
       flat: yes
 #  - name: Unify all content
 #    ansible.builtin.blockinfile:
@@ -67,5 +69,5 @@
 
   - name: Collate all CSVs
     shell:
-      cmd: "cat /var/customlogs/logs/temp >> /var/customlogs/logs/log"
+      cmd: "cat /var/customlogs/logs/{{ hostn1 }} >> /var/customlogs/logs/log"
     delegate_to: localhost
