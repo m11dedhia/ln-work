@@ -58,11 +58,14 @@
       #dest: /var/customlogs/logs/{{ ansible_hostname }}
       dest: /var/customlogs/logs/temp
       flat: yes
-  - name: Copy content to a variable
-    ansible.builtin.blockinfile:
-      path: /var/customlogs/logs/log
-      #block:  "{{lookup('file', '/var/customlogs/logs/' + ansible_hostname) }}"
-      block: "{{ lookup('file', '/var/customlogs/logs/temp') }}"
-      insertafter: EOF
-      #create: yes
-      #state: present
+#  - name: Unify all content
+#    ansible.builtin.blockinfile:
+#      path: /var/customlogs/logs/log
+#      block:  "{{lookup('file', '/var/customlogs/logs/' + ansible_hostname) }}"
+#      #block: "{{ lookup('file', '/var/customlogs/logs/temp') }}"
+#      insertafter: EOF
+
+  - name: Collate all CSVs
+    shell:
+      cmd: "cat /var/customlogs/logs/temp >> /var/customlogs/logs/log"
+    delegate_to: localhost
