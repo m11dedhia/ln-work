@@ -1,0 +1,68 @@
+#- name: Log system performance load averages
+---
+- hosts: localhost
+  tasks:
+  - name: Modify permissions
+    file:
+      path: /home/vmadm/megh/hw2/kvmlab/system-monitor.sh
+      mode: 0777
+  - name: Run bash script
+    shell:
+      cmd: /home/vmadm/megh/hw2/kvmlab/system-monitor.sh 1 3
+    register: output
+    become: yes
+  - name: Make destination directory
+    ansible.builtin.file:
+      path: /var/customlogs/logs
+      state: directory
+    become: yes
+  - name: Make a file if it does not exist
+    ansible.builtin.copy:
+      content: ""
+      dest: /var/customlogs/logs/log
+  - name: Register the line to the log
+    ansible.builtin.lineinfile:
+      path: /var/customlogs/logs/log
+      insertafter: EOF
+      line: "{% for l in output.stdout_lines %}{{ l }}\n{% endfor %}"
+#    with_items: "{{ output.stdout_lines }}"
+
+- hosts: monitored
+  tasks:
+  - name: Copy
+    copy:
+      src: /home/vmadm/megh/hw2/kvmlab/system-monitor-vms.sh
+      dest: /root
+      mode: 0777
+  - name: Run bash script
+    shell:
+      cmd: /root/system-monitor-vms.sh 1 3
+    register: output
+  - name: Make destination directory
+    ansible.builtin.file:
+      path: /var/customlogs/logs
+      state: directory
+    become: yes
+  - name: Make a file if it does not exist
+    ansible.builtin.copy:
+      content: ""
+      dest: /var/customlogs/logs/log
+  - name: Register the line to the log
+    ansible.builtin.lineinfile:
+      path: /var/customlogs/logs/log
+      insertafter: EOF
+      line: "{% for l in output.stdout_lines %}{{ l }}\n{% endfor %}"
+  - name: Fetch remotely logged files
+    ansible.builtin.fetch:
+      src: /var/customlogs/logs/log
+      #dest: /var/customlogs/logs/{{ ansible_hostname }}
+      dest: /var/customlogs/logs/temp
+      flat: yes
+  - name: Copy content to a variable
+    ansible.builtin.blockinfile:
+      path: /var/customlogs/logs/log
+      #block:  "{{lookup('file', '/var/customlogs/logs/' + ansible_hostname) }}"
+      block: "{{ lookup('file', '/var/customlogs/logs/temp') }}"
+      insertafter: EOF
+      #create: yes
+      #state: present

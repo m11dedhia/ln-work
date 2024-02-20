@@ -1,25 +1,35 @@
 - name: Deploys VM based on cloud image
   hosts: localhost
   gather_facts: yes
-  become: yes
+  become: no
   vars:
-    pool_dir: "/var/lib/libvirt/images"
-    vm: ansible-VM1
-    vcpus: 1
-    ram_mb: 1024
-    cleanup: no
-    net: default
-    ssh_pub_key: "/home/vmadm/megh/key.pub"
+    vms:
+      - pool_dir: "/var/lib/libvirt/images"
+        vm: ansible-VM1
+        vcpus: 1
+        ram_mb: 1024
+        cleanup: no
+        net: default
+        ssh_pub_key: "/home/vmadm/megh/key.pub"
+
+      - pool_dir: "/var/lib/libvirt/images"
+        vm: ansible-VM2
+        vcpus: 1
+        ram_mb: 1024
+        cleanup: no
+        net: default
+        ssh_pub_key: "/home/vmadm/megh/key.pub"
 
   tasks:
     - name: KVM Provision role
       include_role:
         name: kvm_provision
       vars:
-        libvirt_pool_dir: "{{ pool_dir }}"
-        vm_name: "{{ vm }}"
-        vm_vcpus: "{{ vcpus }}"
-        vm_ram_mb: "{{ ram_mb }}"
-        vm_net: "{{ net }}"
-        cleanup_tmp: "{{ cleanup }}"
-        ssh_key: "{{ ssh_pub_key }}"
+        libvirt_pool_dir: "{{ item.pool_dir }}"
+        vm_name: "{{ item.vm }}"
+        vm_vcpus: "{{ item.vcpus }}"
+        vm_ram_mb: "{{ item.ram_mb }}"
+        vm_net: "{{ item.net }}"
+        cleanup_tmp: "{{ item.cleanup }}"
+        ssh_key: "{{ item.ssh_pub_key }}"
+      with_items: "{{ vms }}"

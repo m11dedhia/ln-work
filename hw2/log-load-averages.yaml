@@ -1,0 +1,4 @@
+- name: Playbook to log load averages from all hosts (2 guests and 1 host)
+  hosts: all
+  tasks:
+    - name: 

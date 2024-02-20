@@ -1,0 +1,4 @@
+system_performance_logging:
+  hosts:
+    192.168.122.9:
+    192.168.122.209:

@@ -38,6 +38,7 @@
       --hostname {{ vm_name }} \
       --root-password password:{{ vm_root_pass }} \
       --ssh-inject 'root:file:{{ ssh_key }}'
+      --firstboot-command "bash -c 'dhclient && ssh-keygen -A && systemctl start sshd'"
     when: copy_results is changed
   - name: Define vm
     community.libvirt.virt:
