@@ -28,7 +28,7 @@ for ((count=0;count<TP;count=count+T)); do
   #    echo $date,"Very HIGH CPU usage",$one_min,$five_min,$fifteen_min >> $alerts
   #fi
   echo $hostname,$one_min,$five_min,$fifteen_min
-  sleep 1
+  sleep $T
 done
 
 exit 0

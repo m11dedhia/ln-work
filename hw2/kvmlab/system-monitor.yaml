@@ -8,7 +8,7 @@
       mode: 0777
   - name: Run bash script
     shell:
-      cmd: /home/vmadm/megh/hw2/kvmlab/system-monitor.sh 1 3
+      cmd: /home/vmadm/megh/hw2/kvmlab/system-monitor.sh 60 600
     register: output
     become: yes
   - name: Make destination directory
@@ -19,10 +19,13 @@
   - name: Make a file if it does not exist
     ansible.builtin.copy:
       content: ""
-      dest: /var/customlogs/logs/log
+      dest: /var/customlogs/logs/log.csv
+  - name: Add the static header entry
+    shell:
+      cmd: "echo hostname,cpu1min,cpu5min,cpu15min >> /var/customlogs/logs/log.csv"
   - name: Register the line to the log
     ansible.builtin.lineinfile:
-      path: /var/customlogs/logs/log
+      path: /var/customlogs/logs/log.csv
       insertafter: EOF
       line: "{% for l in output.stdout_lines %}{{ l }}\n{% endfor %}"
 #    with_items: "{{ output.stdout_lines }}"
@@ -38,7 +41,7 @@
       mode: 0777
   - name: Run bash script
     shell:
-      cmd: /root/system-monitor-vms.sh 1 3
+      cmd: /root/system-monitor-vms.sh 60 600
     register: output
   - name: Make destination directory
     ansible.builtin.file:
@@ -48,16 +51,16 @@
   - name: Make a file if it does not exist
     ansible.builtin.copy:
       content: ""
-      dest: /var/customlogs/logs/log
+      dest: /var/customlogs/logs/log.csv
   - name: Register the line to the log
     ansible.builtin.lineinfile:
-      path: /var/customlogs/logs/log
+      path: /var/customlogs/logs/log.csv
       insertafter: EOF
       line: "{% for l in output.stdout_lines %}{{ l }}\n{% endfor %}"
   - name: Fetch remotely logged files
     ansible.builtin.fetch:
-      src: /var/customlogs/logs/log
-      dest: /var/customlogs/logs/{{ hostn1 }}
+      src: /var/customlogs/logs/log.csv
+      dest: /var/customlogs/logs/{{ hostn1 }}.csv
       #dest: /var/customlogs/logs/temp
       flat: yes
 #  - name: Unify all content
@@ -69,5 +72,5 @@
 
   - name: Collate all CSVs
     shell:
-      cmd: "cat /var/customlogs/logs/{{ hostn1 }} >> /var/customlogs/logs/log"
+      cmd: "cat /var/customlogs/logs/{{ hostn1 }}.csv >> /var/customlogs/logs/log.csv"
     delegate_to: localhost
