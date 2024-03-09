@@ -1,0 +1,2 @@
+ansible-VM1,192.168.122.225,ubuntu,ubuntu
+ansible-VM2,192.168.122.71,ubuntu,ubuntu
