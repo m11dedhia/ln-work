@@ -2,6 +2,14 @@
   hosts: localhost
   gather_facts: yes
   become: no
+  var_prompt:
+      - name: num_vms
+        prompt: "How many VMs do you want?"
+        private: no
+
+      - name: vms_name
+        prompt: "Prefix of all the VMs"
+        private: no
   vars:
     vms:
       - pool_dir: "/var/lib/libvirt/images"

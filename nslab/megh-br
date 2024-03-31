@@ -1,0 +1,5 @@
+<network>
+  <name>megh-net</name>
+  <forward mode='bridge'/>
+  <bridge name='megh-br' />
+</network>
