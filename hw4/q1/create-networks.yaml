@@ -1,0 +1,40 @@
+---
+
+# - name: Creating L3 OVS network
+#   # hosts: localhost
+#   become: yes
+#   gather_facts: yes
+
+#   tasks:
+  # - name: Create an OVS bridge
+  #   openvswitch_bridge:
+  #       bridge: "{{ bridge_name }}"
+  #       state: present
+    
+  # - name: Set up state
+  #   command: ip link set "{{ bridge_name }}" up
+  
+  - name: Define the network
+    virt_net:
+      command: define
+      name: "{{ bridge_name }}"
+      xml: '{{ lookup("template", "./bridge.xml.j2") }}'
+      state: present
+
+  - name: Create the network
+    virt_net:
+      command: create
+      name: "{{ bridge_name }}"
+      autostart: true
+  
+  - name: Start the network
+    virt_net:
+      command: start
+      name: "{{ bridge_name }}"
+    
+  # - name: Assign ip address
+  #   command: ip addr add "{{ ip_subnet }}" dev "{{ bridge_name }}"
+  #   # when: "{{ ip_subnet == true }}"
+
+  # - name: Run dnsqmasq
+  #   command: dnsmasq --interface="{{ bridge_name }}" --bind-interfaces --dhcp-range="{{ ip_start }}","{{ ip_end }}"

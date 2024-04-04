@@ -1,0 +1,109 @@
+---
+# - ansible.builtin.import_playbook: "./create-networks.yaml"
+- name: Create Q1 topology
+  hosts: localhost
+  become: yes
+  gather_facts: yes
+  vars:
+    disk_dir: /var/lib/libvirt/images
+    sub_dir: "templates"
+    state: running
+    # vm_name: "{{ vm_name }}"
+    ram: 1048576
+    vcpu: 1
+    disk_space: 10G
+    # networks: "{{ networks }}"
+  
+  tasks:
+    - name: Make PublicNet
+      ansible.builtin.import_tasks: "./create-networks.yaml"
+      vars:
+        bridge_name: PublicNet
+        ip_subnet: 192.166.12.1
+        ip_start: 192.166.12.2
+        ip_end: 192.166.12.254
+
+    - name: Make PrivateNet
+      ansible.builtin.import_tasks: "./create-networks.yaml"
+      vars:
+        bridge_name: PrivateNet
+        ip_subnet: 192.167.12.1
+        ip_start: 192.167.12.2
+        ip_end: 192.167.12.254
+    # - name: Make Router VM
+    #   ansible.builtin.import_tasks: "./create-vm.yaml"
+    #   vars:
+    #     # disk_dir: "{{ disk_dir }}"
+    #     # sub_dir: "{{ sub_dir }}"
+    #     # state: "{{ state }}"
+    #     vm_name: 'RouterVM'
+    #     # ram: "{{ ram }}"
+    #     # vcpu: "{{ vcpu }}"
+    #     # disk_space: "{{ disk_space }}"
+    #     # networks: ['PublicNet', 'PrivateNet']
+    #     enable_public: true
+    #     enable_private: true
+    #     # public_ip_subnet: 192.167.1.0/24
+    #     # private_ip_subnet: 192.166.1.0/24
+
+
+  # - name: Create PublicNet
+  #   shell: brctl addbr PublicNet
+  # - name: Create PrivateNet
+  #   shell: brctl addbr PrivateNet
+  # - name: Create PublicNet Bridge
+  #   openvswitch_bridge:
+  #     bridge: PublicNet
+  #     state: present
+  
+  # - name: Create PrivateNet Bridge
+  #   openvswitch_bridge:
+  #     bridge: PrivateNet
+  #     state: present
+
+  # - name: Set PublicNet Bridge device to UP
+  #   command: "ip link set PublicNet up"
+
+  # - name: Set PrivateNet Bridge device to UP
+  #   command: "ip link set PrivateNet up"
+
+
+  # - name: Define the PublicNet network
+  #   virt_net:
+  #     command: define
+  #     name: PublicNet
+  #     xml: '{{ lookup("template", "{{ src_dir }}/bridge.xml.j2") }}'
+  #     state: present
+
+  # - name: Define the PrivateNet network
+  #   virt_net:
+  #     command: define
+  #     name: PrivateNet
+  #     xml: '{{ lookup("template", "{{ src_dir }}/bridge.xml.j2") }}'
+  #     state: present
+
+  # - name: Create the PublicNet network
+  #   virt_net:
+  #     command: create
+  #     name: PublicNet
+  #     autostart: true
+  
+  # - name: Create the PrivateNet network
+  #   virt_net:
+  #     command: create
+  #     name: PrivateNet
+  #     autostart: true
+
+
+  # - name: Start the PublicNet network
+  #   virt_net:
+  #     command: start
+  #     name: PublicNet
+    
+  # - name: Start the PrivateNet network
+  #   virt_net:
+  #     command: start
+  #     name: PrivateNet
+  # - name: importing bridge creation playbook
+  #   ansible.builtin.import_playbook:
+      

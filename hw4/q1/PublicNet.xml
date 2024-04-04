@@ -1,0 +1,11 @@
+<network>
+  <name>PublicNet</name>
+  <forward mode='route'/>
+  <bridge name='PublicNet-br'/>
+  <virtualport type='openvswitch'/>
+  <ip address='192.166.12.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.166.12.2' end='192.166.12.254'/>
+    </dhcp>
+  </ip>
+</network>

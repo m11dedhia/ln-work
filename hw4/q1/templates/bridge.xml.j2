@@ -1,0 +1,11 @@
+<network>
+  <name>{{ bridge_name }}</name>
+  <forward mode='route'/>
+  <bridge name='{{ bridge_name }}'/>
+  <virtualport type='openvswitch'/>
+  <ip address='{{ ip_subnet }}' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='{{ ip_start }}' end='{{ ip_end }}'/>
+    </dhcp>
+  </ip>
+</network>
