@@ -1,0 +1,81 @@
+---
+# - ansible.builtin.import_playbook: "./create-networks.yaml"
+- name: Create Q3 topology
+  hosts: localhost
+  become: yes
+  gather_facts: yes
+  vars:
+    disk_dir: /var/lib/libvirt/images
+    sub_dir: "templates"
+    state: running
+    # vm_name: "{{ vm_name }}"
+    ram: 1048576
+    vcpu: 1
+    disk_space: 10G
+    # networks: "{{ networks }}"
+    namespaces:
+      - 1:
+        id: 1
+        gateway_ip: 172.16.1.1
+        subnet_broadcast: 255.255.255.0
+        dhcp_start_range: 172.16.1.2
+        dhcp_end_range: 172.16.1.254
+        vm_name: 'q3-VM1'
+        
+      - 2:
+        id: 2
+        gateway_ip: 172.16.2.1
+        subnet_broadcast: 255.255.255.0
+        dhcp_start_range: 172.16.2.2
+        dhcp_end_range: 172.16.2.254
+        vm_name: 'q3-VM2'
+      
+      - 3:
+        id: 3
+        gateway_ip: 172.16.3.1
+        subnet_broadcast: 255.255.255.0
+        dhcp_start_range: 172.16.3.2
+        dhcp_end_range: 172.16.3.254
+        vm_name: 'q3-VM3'
+
+  
+  tasks:
+    - name: Create a NSTransit
+      community.general.ip_netns:
+        name: NSTransit2
+        state: present
+        
+    - name: Create a NSx and nsx-br
+      ansible.builtin.include_tasks: "./create-l2-bridges.yaml"
+      with_items: "{{ namespaces }}"
+    - name: create and attach VM
+      ansible.builtin.include_tasks: "./create-vm.yaml"
+      with_items: "{{ namespaces }}"
+    
+    # - name: Make VM1
+    #   ansible.builtin.import_tasks: "./create-vm.yaml"
+    #   vars:
+    #     vm_name: 'VM1'
+    
+    # - name: Make Client VM
+    #   ansible.builtin.import_tasks: "./create-vm.yaml"
+    #   vars:
+    #     vm_name: 'Client'
+    #     enable_public: true
+    #     enable_private: false
+    
+    
+    # - name: Make Server 1
+    #   ansible.builtin.import_tasks: "./create-vm.yaml"
+    #   vars:
+    #     vm_name: 'Server1'
+    #     enable_public: false
+    #     enable_private: true
+
+    
+    # - name: Make Server 2
+    #   ansible.builtin.import_tasks: "./create-vm.yaml"
+    #   vars:
+    #     vm_name: 'Server2'
+    #     enable_public: false
+    #     enable_private: true

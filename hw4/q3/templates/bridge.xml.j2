@@ -1,0 +1,6 @@
+<network>
+  <name>q3-ns{{ item.id }}-br</name>
+  <forward mode='bridge'/>
+  <bridge name='q3-ns{{ item.id }}-br'/>
+  <virtualport type='openvswitch'/>
+</network>

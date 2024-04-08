@@ -51,6 +51,7 @@
         blockinfile:
           path: '{{ disk_dir }}/{{ vm_name }}/{{ vm_name }}.xml.j2'
           insertbefore: "<serial type='pty'>"
+          marker: ""
           block: "{{ lookup('file', '{{ disk_dir }}/{{ vm_name }}/{{ vm_name }}_PUBLIC_interfaces.xml') }}"
       when: "{{ enable_public == true }}"
     
@@ -66,6 +67,7 @@
         blockinfile:
           path: '{{ disk_dir }}/{{ vm_name }}/{{ vm_name }}.xml.j2'
           insertbefore: "<serial type='pty'>"
+          marker: ""
           block: "{{ lookup('file', '{{ disk_dir }}/{{ vm_name }}/{{ vm_name }}_PRIVATE_interfaces.xml') }}"
       when: "{{ enable_private == true }}"
 
